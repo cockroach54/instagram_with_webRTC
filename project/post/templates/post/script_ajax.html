@@ -71,6 +71,8 @@
   });
 
 
+var emotion = "angry happy";
+
 ///////////////// 댓글 작성하기 /////////////////
   $(document).on('click', '.commnet-icon', function(){
     var pk = $(this).attr('name');
@@ -92,12 +94,13 @@
       data: {
         'pk': pk,
         'content':content,
+        'emotion':emotion,
         'csrfmiddlewaretoken': '{{ csrf_token }}',
       },
       dataType: "html",
 
       success: function(data, textStatus, jqXHR){
-        alert("댓글을 추가하였습니다.");
+        // alert("댓글을 추가하였습니다.");
         $("#add-comment-post"+pk+">input[type=text]").val("");
         $("#comment-list-ajax-post"+pk).append(data);
       },

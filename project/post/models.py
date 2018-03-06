@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.conf import settings
 from django.db import models
 from imagekit.models import ProcessedImageField
@@ -75,6 +77,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Post)
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     content = models.CharField(max_length=40)
+    emotion = models.CharField(max_length=40, default="hap")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

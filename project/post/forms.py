@@ -21,7 +21,13 @@ class CommentForm(forms.ModelForm):
         'size': '70px',
         'placeholder': '댓글 달기...',
         'maxlength': '40', }))
+    emotion = forms.CharField(label='', widget=forms.TextInput(attrs={
+        'class': 'comment-form',
+        'size': '70px',
+        'placeholder': '댓글 감정...',
+        'maxlength': '40', }))
 
     class Meta:
         model = Comment
-        fields = ['content']
+        # fields = ['content']
+        fields = ['content', 'emotion']

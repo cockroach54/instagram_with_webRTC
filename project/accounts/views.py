@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import json
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
