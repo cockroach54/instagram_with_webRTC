@@ -1,0 +1,101 @@
+/*
+ *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license
+ *  that can be found in the LICENSE file in the root of the source
+ *  tree.
+ */
+
+
+/* ------- 여기부턴 내가 작성*/
+#i1{
+  border: 1px solid red; 
+}
+
+#c1{
+  display: none;
+}
+
+#gum{
+  float: left;
+}
+
+
+/* d3 */
+/* Style the lines by removing the fill and applying a stroke */
+.line {
+  fill: none;
+  /* stroke: #ffab00; */
+  stroke-width: 2;
+}
+
+/* Style the dots by assigning a fill and stroke */
+.dot {
+  /* fill: #ffab00; */
+  /* stroke: #fff; */
+  opacity: .8;
+}
+
+#chat{
+  height: 300px;
+  overflow: scroll;
+  background-color: #fff;
+  color: #333;
+  /* opacity: .4;  */
+}
+
+.d3{
+  /* background-color: #fff;
+  stroke: #fff; */
+}
+
+/* for video player */
+.videoPlayer{
+  width: 100%;
+  /* height: auto; */
+}
+
+.videoCtrl{
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ctrl{
+  box-sizing: border-box;
+  background-color: #fff;
+  /* border: 1px solid red; */
+  height: 100%;
+  color: #333;
+  text-align: center;
+}
+
+.playBtn{
+  width: 6%;
+}
+.playBtn:hover{
+  cursor: pointer;
+  opacity: .8;
+}
+
+.barWrapper{
+  width: 86%;
+}
+
+.optionBtn{
+  width: 6%
+}
+.optionBtn:hover{
+  cursor: pointer;
+  opacity: .8;
+}
+
+
+#rtc{
+  width: 400px;
+  height: 600px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  overflow: scroll;
+}

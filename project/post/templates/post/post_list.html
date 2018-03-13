@@ -71,7 +71,18 @@ Instagram
     </span>
     {% endif %}
   </header>
-  <img src="{{ post.photo.url }}" alt="{{ post.author }}'s photo">
+  <!-- <img src="{{ post.photo.url }}" alt="{{ post.author }}'s photo"> -->
+  <video id="videoPlayer{{ post.id }}" class="videoPlayer" src="{{ post.movie }}" controls></video>
+  <div id='videoCtrl{{ post.id }}' class="videoCtrl">
+    <div id="playBtn{{ post.id }}" class="playBtn ctrl">&gt;</div>
+    <div id="barWrapper{{ post.id }}" class="barWrapper ctrl">
+      <div id="bar{{ post.id }}" class="bar">bar</div>
+      <div id="d3Bubble{{ post.id }}" class="d3Bubble d3"></div>
+      <div id="d3Wrapper{{ post.id }}" class=" d3Wrapper d3"></div>      
+    </div>
+    <div id="optionBtn{{ post.id }}" class="optionBtn ctrl">...</div>
+  </div>
+
   <div class="post-content">
     {% if user in post.like_user_set.all %}
     <input type="button" class="like liked" name="{{ post.id }}">
@@ -107,12 +118,31 @@ Instagram
     <div id="comment{{ comment.id }}">
 
       <span class="comment-username">{{ comment.author.profile.nickname }}</span> {{ comment.content }}
+      <span style="display: none" class="emotion p{{ post.id }} c{{ comment.id }}">{{ comment.emotion }}</span>
+
       {% if user == comment.author %}
+      <input type="button" class="show-emo" value="감정" name="{{ post.id }}" comment="{{ comment.id }}">
       <input type="button" class="del-comment" value="삭제" name="{{ comment.id }}">
       {% endif %}
 
     </div>
     {% endfor %}
+
+    <script>
+      var postId = "{{ post.id }}";
+      var user = "{{ post.author.profile.nickname }}";
+      // var comments = '{{post.comment_set.all|slice:":4"}}';
+      var emotions = document.querySelectorAll('.emotion.p'+postId);
+      emotions = Array.prototype.slice.call(emotions);
+      
+      console.log('############', postId);
+      emotions.map(d=> {
+        // return {user:JSON.parse(d.innerText)};
+        // data_emotion[postId] = JSON.parse(d.innerText);
+      });
+      // console.log(postId, emotions);
+    </script>
+
     <div id="comment-more-{{post.id}}"></div>
 
     <div class="time">
@@ -138,5 +168,13 @@ Instagram
   <button id="callmorepost" type="button">More Post</button>
   {% endif %}
 
+  <script>
+    console.log('----------for modification test---------');
+    // console.log( {{ posts }} );
+    // var ppp = 102029933;
+  </script>
   {% include "post/script_ajax.html" %}
   {% endblock %}
+
+
+  

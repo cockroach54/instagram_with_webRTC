@@ -71,7 +71,8 @@
   });
 
 
-var emotion = "angry happy";
+// 포스트별 기존의 다른 사람들 이모션
+// var pre_emotions = ;
 
 ///////////////// 댓글 작성하기 /////////////////
   $(document).on('click', '.commnet-icon', function(){
@@ -94,7 +95,7 @@ var emotion = "angry happy";
       data: {
         'pk': pk,
         'content':content,
-        'emotion':emotion,
+        'emotion': data_emotion[pk]? JSON.stringify(data_emotion[pk]): '',
         'csrfmiddlewaretoken': '{{ csrf_token }}',
       },
       dataType: "html",
@@ -109,6 +110,22 @@ var emotion = "angry happy";
         alert("문제가 발생했습니다.");
       },
     });
+  });
+
+  ///////////////// 감정보이기 ////////////////////
+  $(document).on('click', '.show-emo', function(){
+      var postId = $(this).attr('name');
+      var commentId = $(this).attr('comment');
+
+      // 정의가 안되어있음...
+      // if(!document.querySelector('#svg_l'+postId)){
+      //   makeBubbleChart(postId);
+      //   makeLineChart(postId);
+      // }
+
+      var emotions = document.querySelector('.emotion.p'+postId+'.c'+commentId).innerText;
+      emotions = JSON.parse(emotions);
+      drawDot(postId, emotions);   
   });
 
 

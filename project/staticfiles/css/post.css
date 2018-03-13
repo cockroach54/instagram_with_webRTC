@@ -161,6 +161,21 @@ article.post-wrap .post-content .del-comment:hover {
   color: #262626;
 }
 
+article.post-wrap .post-content .show-emo{
+  background: 0 0;
+  border: none;
+  color: #c7c7c7;
+  cursor: pointer;
+  float: right;
+  padding: 0;
+  margin-right: 12px;
+  width: 2em;
+}
+
+article.post-wrap .post-content .show-emo:hover {
+  color: #3897f0;
+}
+
 article.post-wrap .post-content .add-comment-wrap {
   padding-top: 16px;
   padding-bottom: 16px;

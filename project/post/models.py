@@ -23,6 +23,8 @@ class Post(models.Model):
                                 processors=[ResizeToFill(600, 600)],
                                 format='JPEG',
                                 options={'quality': 90})
+    # movie 컬럼추가 일단 업로드는 제외하고 패스만
+    movie = models.CharField(max_length=100)
     content = models.CharField(max_length=140, help_text="최대 140자 입력 가능")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -77,7 +79,8 @@ class Comment(models.Model):
     post = models.ForeignKey(Post)
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     content = models.CharField(max_length=40)
-    emotion = models.CharField(max_length=40, default="hap")
+    # emotion = models.CharField(max_length=40)
+    emotion = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
