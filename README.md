@@ -38,3 +38,8 @@
   - 실행 환경에 따른 (개발/배포) requirements.txt, settings.py 파일 분리
   - SECRET_KEY 설정 분리 (환경변수패턴 / 비밀파일패턴)
 - 그 밖의 [연습과정 TIL 기록](https://wayhome25.github.io/#til-today-i-learned)
+
+
+---
+### 위 부분은 원래 작성자분 코드 포크한것
+> webRTM + face++ 을 이용한 감성댓글 기능으로 증강 
