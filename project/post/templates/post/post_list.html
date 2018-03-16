@@ -72,16 +72,21 @@ Instagram
     {% endif %}
   </header>
   <!-- <img src="{{ post.photo.url }}" alt="{{ post.author }}'s photo"> -->
-  <video id="videoPlayer{{ post.id }}" class="videoPlayer" src="{{ post.movie }}" controls></video>
+  <video id="videoPlayer{{ post.id }}" class="videoPlayer" controls preload="auto">
+    <source src="{{ post.movie }}" type="video/mp4"/>
+  </video>
   <div id='videoCtrl{{ post.id }}' class="videoCtrl">
     <div id="playBtn{{ post.id }}" class="playBtn ctrl">&gt;</div>
     <div id="barWrapper{{ post.id }}" class="barWrapper ctrl">
-      <div id="bar{{ post.id }}" class="bar">bar</div>
-      <div id="d3Bubble{{ post.id }}" class="d3Bubble d3"></div>
-      <div id="d3Wrapper{{ post.id }}" class=" d3Wrapper d3"></div>      
+      <div id="bar{{ post.id }}" class="bar">progress</div>
+      <div id="showAll{{ post.id }}" class="showAll" style="display:none">모두보기</div>
     </div>
-    <div id="optionBtn{{ post.id }}" class="optionBtn ctrl">...</div>
+    <div id="optionBtn{{ post.id }}" class="optionBtn ctrl">감정보기</div>
   </div>
+      <div style="text-align: center">
+        <div id="d3Bubble{{ post.id }}" class="d3Bubble d3"></div>
+        <div id="d3Wrapper{{ post.id }}" class=" d3Wrapper d3"></div>      
+      </div>
 
   <div class="post-content">
     {% if user in post.like_user_set.all %}
@@ -127,21 +132,6 @@ Instagram
 
     </div>
     {% endfor %}
-
-    <script>
-      var postId = "{{ post.id }}";
-      var user = "{{ post.author.profile.nickname }}";
-      // var comments = '{{post.comment_set.all|slice:":4"}}';
-      var emotions = document.querySelectorAll('.emotion.p'+postId);
-      emotions = Array.prototype.slice.call(emotions);
-      
-      console.log('############', postId);
-      emotions.map(d=> {
-        // return {user:JSON.parse(d.innerText)};
-        // data_emotion[postId] = JSON.parse(d.innerText);
-      });
-      // console.log(postId, emotions);
-    </script>
 
     <div id="comment-more-{{post.id}}"></div>
 

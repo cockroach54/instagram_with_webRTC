@@ -90,7 +90,6 @@
   opacity: .8;
 }
 
-
 #rtc{
   width: 400px;
   height: 600px;
@@ -98,4 +97,9 @@
   bottom: 0;
   left: 0;
   overflow: scroll;
+}
+
+.showAll:hover{
+  cursor: pointer;
+  opacity: .8;
 }

@@ -1,7 +1,8 @@
 
-c1 = document.getElementById('c1');
-ctx1 = c1.getContext('2d');
-video = document.getElementById('gum');
+var c1 = document.getElementById('c1');
+var ctx1 = c1.getContext('2d');
+var video = document.getElementById('gum');
+var call_cnt = 0;
 
 function postFace(imgURL, callback){
   var imgURL2 = imgURL.replace(/data:image\/(png|jpeg);base64,/, '');
@@ -66,7 +67,8 @@ function postFace_(imgURL) {
 var captures = document.getElementById('captures');
 var interval = 2500; // ms
 var intervalId;
-var data_emotion = {};
+var current_emotion = {}; // 현재 유저 감정정보
+var comment_emotion = {}; // 댓글에 저장된 감정정보 post id로 구분
 var emotions = ["sadness","neutral","anger","surprise","happiness"];
 // var emotions = ["sadness","neutral","disgust","anger","surprise","fear","happiness"];
 
@@ -79,26 +81,42 @@ function makeCaptures(postId, ms){
   
     captures.appendChild(newImg);
 
-    if(!data_emotion[postId]) data_emotion[postId]=[];
+    if(!current_emotion[postId]) current_emotion[postId]=[];
     // api call
     postFace(imgURL, res=>{
       console.log(res);
-      data_emotion[postId].push(res[0]? res[0]: {});
+      var res_modi;
+      // find maximum emotion
+      if(res[0]){
+        var emotions = res[0].attributes.emotion;
+        var values = Object.values(emotions);
+        var maxValue = Math.max(...values);
+        var emotionKind = Object.keys(emotions)[(values.indexOf(maxValue))];
+        
+        if(maxValue > 30 && emotionKind != 'neutral'){
+          res_modi = {x:(call_cnt*term/1000).toFixed(1)*1 , y:maxValue, kind:emotionKind};
+          current_emotion[postId].push(res_modi);
+        }
+      }
+      // else res_modi = {x:(call_cnt*term/1000).toFixed(1)*1, y:0, kind:'none'};
+
     });
 
-    d3.selectAll('path.line'+postId).remove();
-    emotions.forEach(function(el, id){
-      drawPath(postId, data_emotion[postId], el);
-    });
-    drawDot(postId, data_emotion[postId]);
+    // 현재 라인차트 미사용
+    // d3.selectAll('path.line'+postId).remove();
+    // emotions.forEach(function(el, id){
+    //   drawPath(postId, current_emotion[postId], el);
+    // });
+    drawDot(postId, current_emotion[postId]);
+    call_cnt++;
 
   }, ms);
 }
 
 function makeCaptures_test(postId, ms){
   intervalId = setInterval(function(){
-    if(!data_emotion[postId]) data_emotion[postId]=[];    
-    data_emotion[postId].push(
+    if(!current_emotion[postId]) current_emotion[postId]=[];    
+    current_emotion[postId].push(
       {
         "attributes": {
           "emotion": {
@@ -129,9 +147,9 @@ function makeCaptures_test(postId, ms){
 
     d3.selectAll('path.line'+postId).remove();
     emotions.forEach(function(el, id){
-      drawPath(postId, data_emotion[postId], el);
+      drawPath(postId, current_emotion[postId], el);
     });
-    drawDot(postId, data_emotion[postId]);
+    drawDot(postId, current_emotion[postId]);
 
   }, ms);
 }

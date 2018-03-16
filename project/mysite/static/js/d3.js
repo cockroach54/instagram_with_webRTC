@@ -6,7 +6,7 @@ var svg, svgBubble;
 var emotion_data, all_data;
 
 var margin = {top: 10, right: 20, bottom: 20, left: 20}
-, width = 500 - margin.left - margin.right // Use the window's width 
+, width = 580 - margin.left - margin.right // Use the window's width 
 , height = 150 - margin.top - margin.bottom // Use the window's height
 , height2 = 80 - margin.top - margin.bottom; // Use the window's height
 
@@ -85,24 +85,8 @@ function drawPath(postId, data, emotionKind){
 
 function drawDot(postId, data){
   // 12. Appends a circle for each datapoint 
-  var svgBubble = d3.select('#svg_b'+postId+'>g');  
-  
-  emotion_data = data.map((d,i)=> {   
-    if(d.attributes){
-      // find maximum emotion
-      var emotions = d.attributes.emotion;
-      var values = Object.values(emotions);
-      var maxValue = Math.max(...values);
-      var emotionKind = Object.keys(emotions)[(values.indexOf(maxValue))];
-
-      return {x:i*term/1000 , y:maxValue, kind:emotionKind};
-    }
-    else return {x:0, y:0, kind:'none'};
-  });
-  
-  // 30% 이상이고 neutral아닌 감정만 필터링
-  emotion_data = emotion_data.filter(d=> d.y > 30 && d.kind != 'neutral');
-  
+  var svgBubble = d3.select('#svg_b'+postId+'>g'); 
+   
   var color = {
     "sadness": "black",
     "neutral": "yellow",
@@ -117,17 +101,32 @@ function drawDot(postId, data){
     .remove();
 
   svgBubble.selectAll(".dot")  
-      .data(emotion_data)
+      .data(data)
     .enter().append("circle") // Uses the enter().append() method
     .attr("class", "dot") // Assign a class for styling
     .attr("fill", function(d) { return color[d.kind] }) // Assign a class for styling       
-      .attr("cx", function(d, i) { return xScale(d.x) })
-      // .attr("cy", function(d) { return yScale(d.y) })
-      .attr("cy", height2/2)
-      .attr("r", 0)
-      .transition()
-        .delay(300)
-        .attr("r", function(d,i) { return d.y/10});
+    .attr("cx", function(d, i) { return xScale(d.x) })
+    // .attr("cy", function(d) { return yScale(d.y) })
+    .attr("cy", height2/2)
+    .attr("r", 0)
+    .style('cursor', 'pointer')
+    .transition()
+      .delay(300)
+      .attr("r", function(d,i) { return d.y/10});
+
+  svgBubble.selectAll(".dot")
+    .on('click', function(d){
+      console.log(d);
+    })
+    .on('mouseover', function(){
+      d3.select(this)
+          .style('opacity', .95);
+    })
+    .on('mouseout', function(){
+      d3.select(this)
+          .style('opacity', .8);
+    })
+  
 }
 
 function makeBubbleChart(postId){

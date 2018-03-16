@@ -85,6 +85,26 @@
   $(document).on('click', '.add-comment', function(){
     var pk = $(this).attr('name');
     var content = $("#add-comment-post"+pk+">input[type=text]").val();
+
+    /*
+    // 데이터 보내기전 필터링
+    var emotion = current_emotion[pk]? current_emotion[pk].map((d,i)=> {   
+      if(d.attributes){
+        // find maximum emotion
+        var emotions = d.attributes.emotion;
+        var values = Object.values(emotions);
+        var maxValue = Math.max(...values);
+        var emotionKind = Object.keys(emotions)[(values.indexOf(maxValue))];
+
+        return {x:i*term/1000 , y:maxValue, kind:emotionKind};
+      }
+      else return {x:0, y:0, kind:'none'};
+    }): [];
+    // 30% 이상이고 neutral아닌 감정만 필터링
+    emotion = emotion.filter(d=> d.y > 30 && d.kind != 'neutral');
+    */
+    var emotion = current_emotion[pk]
+
     if(content.length > 140){
       alert("댓글은 최대 140자 입력 가능합니다. 현재 글자수 :"+content.length);
       return;
@@ -95,7 +115,8 @@
       data: {
         'pk': pk,
         'content':content,
-        'emotion': data_emotion[pk]? JSON.stringify(data_emotion[pk]): '',
+        'emotion': emotion? JSON.stringify(emotion): '',
+        // 'emotion': current_emotion[pk]? JSON.stringify(current_emotion[pk]): '',
         'csrfmiddlewaretoken': '{{ csrf_token }}',
       },
       dataType: "html",
@@ -116,12 +137,6 @@
   $(document).on('click', '.show-emo', function(){
       var postId = $(this).attr('name');
       var commentId = $(this).attr('comment');
-
-      // 정의가 안되어있음...
-      // if(!document.querySelector('#svg_l'+postId)){
-      //   makeBubbleChart(postId);
-      //   makeLineChart(postId);
-      // }
 
       var emotions = document.querySelector('.emotion.p'+postId+'.c'+commentId).innerText;
       emotions = JSON.parse(emotions);

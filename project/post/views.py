@@ -236,7 +236,9 @@ def comment_new(request):
             comment = form.save(commit=False)
             comment.author = request.user
             comment.post = post
-            comment.emotion = request.POST.get('emotion') #"jinhan"# render 용
+            emotions = json.loads(request.POST.get('emotion')) #"jinhan"# render 용
+            list(map(lambda emo: emo.update({'author':comment.author.profile.nickname}), emotions))
+            comment.emotion = json.dumps(emotions)
             comment.save()
             return render(request, 'post/comment_new_ajax.html', {
                 'comment': comment,
